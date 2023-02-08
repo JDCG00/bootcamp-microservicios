@@ -1,10 +1,14 @@
 package com.microservicios.bootcampmicroservicios.controller;
 
-import com.microservicios.bootcampmicroservicios.model.User;
+
+import com.microservicios.bootcampmicroservicios.model.Usuario;
 import com.microservicios.bootcampmicroservicios.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Optional;
 
 
@@ -17,13 +21,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable("id") Long id){
+    @GetMapping("/users/{id}")
+    public Optional<Usuario> getUserById(@PathVariable("id") Long id){
         return userService.getUserById(id);
     }
-    @PostMapping("/user")
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
+    @PostMapping("/users")
+    public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario){
+        userService.saveUser(usuario);
+        return ResponseEntity.created(URI.create("/users")).build();
+    }
+    @PutMapping("/users")
+    public Usuario updateUser(@RequestBody Usuario usuario){
+        return userService.saveUser(usuario);
+    }
+    @DeleteMapping("/users/{id}")
+    public Usuario deleteUserById(@PathVariable("id") Long id){
+        return null;
     }
 
 }

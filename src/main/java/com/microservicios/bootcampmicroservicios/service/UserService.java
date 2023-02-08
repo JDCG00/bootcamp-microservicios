@@ -17,13 +17,15 @@ public class UserService  {
         this.userRepository = userRepository;
     }
 
+    //Busca el usuario según el id
     public Optional<Usuario> getUserById(Long id){
         return userRepository.findById(id);
     }
-
+    //Guarda el usuario
     public Usuario saveUser(Usuario usuario){
         return userRepository.save(usuario);
     }
+    //Elimina el usuario según el id
     public void deleteUserById(Long id){
         userRepository.deleteById(id);
     }

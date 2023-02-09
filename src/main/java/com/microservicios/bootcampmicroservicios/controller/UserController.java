@@ -35,8 +35,14 @@ public class UserController {
     //También emite un código de estado creado(201)
     @PostMapping("/users")
     public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario){
-        userService.saveUser(usuario);
-        return ResponseEntity.created(URI.create("/users")).build();
+        if (usuario.getName() == null && usuario.getbirthdate() == null){
+            throw new IllegalArgumentException("Se debe introducir nombre y fecha de nacimiento del usuario.");
+        } else if (usuario.getName() == null) {
+            throw new IllegalArgumentException("Se debe introducir el nombre de usuario.");
+        }else if (usuario.getbirthdate() == null){
+            throw new IllegalArgumentException("Se debe introducir la fecha de nacimiento del usuario.");
+        }
+        return new ResponseEntity<>(userService.saveUser(usuario), HttpStatus.CREATED);
     }
     //Actualiza un usuario con los parametros dados (se necesita tambíen el id en el body para actualizar el usuario),
     // por ejemplo:
